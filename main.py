@@ -2,6 +2,7 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import re
 
 class FizzInt (int):
     def isMultipleOf(self, value):
@@ -11,13 +12,34 @@ class Rules:
     def __init__(self):
         self.rules = []
         self.total = 100
-    def makeRule(self, type, word, multiple, character=""):
-        if type == 'normal':
-            def newRule(final, num):
-                if(num.isMultipleOf(multiple)):
+
+    def insertBeforeChar(self, character, oldWord, newWord):
+        index = oldWord.find(character)
+        if index == -1:
+            return oldWord + newWord
+        else:
+            final = oldWord[:index] + newWord + oldWord[index:]
+            return final
+
+    def reverse(self, word):
+        arr = re.findall('.[^A-Z]*', word)
+        if len(arr) == 0:
+            return ""
+        else:
+            return arr.reverse().join("")
+
+    def makeRule(self, type, multiple, word="", character=""):
+        def newRule(final, num):
+            if(num.isMultipleOf(multiple)):
+                if(type == 'normal'):
                     final += word
-                return final
-            self.rules.append(newRule)
+                elif(type == 'insertBefore'):
+                    final = self.insertBeforeChar(character, final, word)
+                elif(type == 'reverse'):
+                    final = self.reverse(word)
+
+            return final
+        self.rules.append(newRule)
 
     def runRules(self, curr):
         final = ""
@@ -43,7 +65,9 @@ def insertBeforeChar(character, oldWord, newWord):
 
 def fizzbuzz():
     rule = Rules()
-    rule.makeRule("normal", "Haha", 4)
+    rule.makeRule("normal", 4, "Haha")
+    rule.makeRule("insertBefore", 7, "Newbie", "H")
+    rule.makeRule("reverse", 13)
     rule.printResult()
 
     # Use a breakpoint in the code line below to debug your script.
