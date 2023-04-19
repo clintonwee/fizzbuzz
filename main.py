@@ -31,16 +31,16 @@ class Rules:
         else:
             return arr.reverse().join("")
 
-    def makeRule(self, type, multiple, word="", character=""):
+    def makeRule(self, ruleType, multiple, word="", character=""):
         def newRule(final, num):
             if(num.isMultipleOf(multiple)):
-                if(type == 'normal'):
+                if(ruleType == 'normal'):
                     final += word
-                elif(type == 'insertBefore'):
+                elif(ruleType == 'insertBefore'):
                     final = self.insertBeforeChar(character, final, word)
-                elif(type == 'reverse'):
+                elif(ruleType == 'reverse'):
                     final = self.reverse(word)
-                elif(type == 'override'):
+                elif(ruleType == 'override'):
                     final = word
             return final
         self.rules.append(newRule)
@@ -63,13 +63,18 @@ class Rules:
 def fizzbuzz():
     args = sys.argv[1:]
     rule = Rules()
+
     for arg in args:
         ruleArr = arg.split('-')
-        type = ruleArr[0]
-        multiple = int(ruleArr[1])
-        word = ruleArr[2].capitalize()
+        for i in range(len(ruleArr), 4):
+            ruleArr.append("")
+        ruleType, multiple, word, insertBeforeChar = ruleArr
 
-        rule.makeRule(type, multiple, word)
+        multiple = int(multiple)
+        word = word.capitalize()
+        insertBeforeChar = insertBeforeChar.upper()
+
+        rule.makeRule(ruleType, multiple, word, insertBeforeChar)
     rule.printResult()
     # rule = Rules()
     # rule.makeRule("normal", 4, "Haha")
