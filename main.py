@@ -3,10 +3,13 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import re
+import sys
+
 
 class FizzInt (int):
     def isMultipleOf(self, value):
         return self % value == 0
+
 
 class Rules:
     def __init__(self):
@@ -37,7 +40,8 @@ class Rules:
                     final = self.insertBeforeChar(character, final, word)
                 elif(type == 'reverse'):
                     final = self.reverse(word)
-
+                elif(type == 'override'):
+                    final = word
             return final
         self.rules.append(newRule)
 
@@ -55,49 +59,25 @@ class Rules:
             else:
                 print(final)
 
-def insertBeforeChar(character, oldWord, newWord):
-    index = oldWord.find(character)
-    if index == -1:
-        return oldWord + newWord
-    else:
-        final = oldWord[:index] + newWord + oldWord[index:]
-        return final
 
 def fizzbuzz():
+    args = sys.argv[1:]
     rule = Rules()
-    rule.makeRule("normal", 4, "Haha")
-    rule.makeRule("insertBefore", 7, "Newbie", "H")
-    rule.makeRule("reverse", 13)
+    for arg in args:
+        ruleArr = arg.split('-')
+        type = ruleArr[0]
+        multiple = int(ruleArr[1])
+        word = ruleArr[2].capitalize()
+
+        rule.makeRule(type, multiple, word)
     rule.printResult()
+    # rule = Rules()
+    # rule.makeRule("normal", 4, "Haha")
+    # rule.makeRule("override", 9, "Override")
+    # rule.makeRule("insertBefore", 7, "Newbie", "O")
+    # rule.makeRule("reverse", 13)
+    # rule.printResult()
 
-    # Use a breakpoint in the code line below to debug your script.
-    # total = FizzInt(input(f'Hi! Please input the number you wish to count up to:'))
-    # for i in range(1, total + 1, 1):
-    #     curr = FizzInt(i)
-    #     final = ""
-    #
-    #     if curr.isMultipleOf(3):
-    #         final += "Fizz"
-    #
-    #     if curr.isMultipleOf(5):
-    #         final += "Buzz"
-    #
-    #     if curr.isMultipleOf(11):
-    #         final = "Bong"
-    #
-    #     if curr.isMultipleOf(13):
-    #         final = insertBeforeChar("B", final, "Fezz")
-    #
-    #     if curr.isMultipleOf(17):
-    #         final = final[::-1]
-    #
-    #     if len(final) == 0:
-    #         print(curr)
-    #         continue
-    #
-    #     print(final)
-
-    # Press Ctrl+F8 to toggle the breakpoint.
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
