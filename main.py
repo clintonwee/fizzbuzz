@@ -31,14 +31,14 @@ class Rules:
 
     def makeRule(self, ruleType, multiple, word="", character=""):
         def newRule(final, num):
-            if(num.isMultipleOf(multiple)):
-                if(ruleType == 'normal'):
+            if num.isMultipleOf(multiple):
+                if ruleType == 'normal':
                     final += word
-                elif(ruleType == 'insertBefore'):
+                elif ruleType == 'insertBefore':
                     final = self.insertBeforeChar(character, final, word)
-                elif(ruleType == 'reverse'):
+                elif ruleType == 'reverse':
                     final = self.reverse(word)
-                elif(ruleType == 'override'):
+                elif ruleType == 'override':
                     final = word
             return final
         self.rules.append(newRule)
