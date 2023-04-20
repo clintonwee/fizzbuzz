@@ -22,12 +22,13 @@ class Rules:
             final = oldWord[:index] + newWord + oldWord[index:]
             return final
 
-    def reverse(self, word):
-        arr = re.findall('.[^A-Z]*', word)
-        if len(arr) == 0:
-            return ""
+    def reverse(self, final):
+        arr = re.findall('.[^A-Z]*', final)
+        if len(arr) <= 1:
+            return final
         else:
-            return arr.reverse().join("")
+            arr.reverse()
+            return ''.join(arr)
 
     def makeRule(self, ruleType, multiple, word="", character=""):
         def newRule(final, num):
@@ -37,7 +38,7 @@ class Rules:
                 elif ruleType == 'insertBefore':
                     final = self.insertBeforeChar(character, final, word)
                 elif ruleType == 'reverse':
-                    final = self.reverse(word)
+                    final = self.reverse(final)
                 elif ruleType == 'override':
                     final = word
             return final
