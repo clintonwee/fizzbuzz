@@ -58,6 +58,33 @@ class Rules:
                 print(final)
 
 
+def runDefaultRules():
+    totalNum = input("What is the number you wish to count up to?")
+    rule = Rules(int(totalNum))
+    rule.makeRule("normal", 3, "Fizz")
+    rule.makeRule("normal", 5, "Buzz")
+    rule.makeRule("normal", 7, "Bang")
+    rule.makeRule("override", 11, "Bong")
+    rule.makeRule("insertBefore", 13, "Fezz", "B")
+    rule.makeRule("reverse", 17)
+    rule.printResult()
+
+def runCustomRules(args):
+    totalNum = input("What is the number you wish to count up to?")
+    rule = Rules(int(totalNum))
+    for arg in args:
+        ruleArr = arg.split('-')
+        for i in range(len(ruleArr), 4):
+            ruleArr.append("")
+        ruleType, multiple, word, insertBeforeChar = ruleArr
+
+        multiple = int(multiple)
+        word = word.capitalize()
+        insertBeforeChar = insertBeforeChar.upper()
+
+        rule.makeRule(ruleType, multiple, word, insertBeforeChar)
+    rule.printResult()
+
 def fizzbuzz():
     args = sys.argv[1:]
     if len(args) == 0:
@@ -65,37 +92,15 @@ def fizzbuzz():
         print("normal-3-fizz normal-5-buzz normal-7-bang override-11-bong insertBefore-13-fezz-b reverse-17")
         ans = input("Are you sure you want to use default? [Y/N]")
         if ans == 'Y':
-            totalNum = input("What is the number you wish to count up to?")
-            rule = Rules(int(totalNum))
-            rule.makeRule("normal", 3, "Fizz")
-            rule.makeRule("normal", 5, "Buzz")
-            rule.makeRule("normal", 7, "Bang")
-            rule.makeRule("override", 11, "Bong")
-            rule.makeRule("insertBefore", 13, "Fezz", "B")
-            rule.makeRule("reverse", 17)
+            runDefaultRules()
         else:
-            print("Game ended...")
+            print("GAME ABORTED")
             return
     else:
-        totalNum = input("What is the number you wish to count up to?")
-        rule = Rules(int(totalNum))
-        for arg in args:
-            ruleArr = arg.split('-')
-            for i in range(len(ruleArr), 4):
-                ruleArr.append("")
-            ruleType, multiple, word, insertBeforeChar = ruleArr
-
-            multiple = int(multiple)
-            word = word.capitalize()
-            insertBeforeChar = insertBeforeChar.upper()
-
-            rule.makeRule(ruleType, multiple, word, insertBeforeChar)
-    rule.printResult()
+        runCustomRules(args)
+    print("END OF GAME")
 
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     fizzbuzz()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
